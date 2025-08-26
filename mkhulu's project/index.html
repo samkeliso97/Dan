@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content="Kukhanyeni Community Development Hub — resources, news, and ways to get involved."/>
+  <title>Community Development Hub</title>
+
+  <link rel="preconnect" href=https://fonts.gstatic.com crossorigin/>
+  <link href=https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap rel="stylesheet" />
+  
+  <style>
+    /* Correct and complete CSS for the website. No conflicting styles. */
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Roboto', sans-serif; scroll-behavior:smooth; }
+
+    :root {
+      --primary-green:#2F8F4E;
+      --gold:#F0C45A;
+      --white:#fff;
+      --light-gray:#f8f8f8;
+      --shadow:0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    body { line-height:1.6; color:#333; background:var(--light-gray); }
+
+    /* Navbar */
+    nav {
+      display:flex; justify-content:space-between; align-items:center;
+      background:var(--primary-green); padding:10px 20px; position:sticky; top:0; z-index:1000;
+    }
+    .logo img { height:50px; width:auto; display:block; }
+    nav ul { display:flex; list-style:none; }
+    nav ul li { margin-left:20px; }
+    nav a { color:var(--white); text-decoration:none; font-weight:500; }
+    nav ul li a:hover { color:var(--gold); }
+
+    /* Hero */
+    .hero {
+      background:url('dan.jpg') center/cover no-repeat;
+      min-height:480px; display:flex; justify-content:center; align-items:center;
+      text-align:center; color:var(--white); position:relative;
+    }
+    .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
+    .hero-content { position:relative; z-index:1; padding:0 16px; }
+    .hero h1 { font-size:48px; margin-bottom:20px; }
+    .hero p { font-size:20px; margin-bottom:20px; }
+    .btn {
+      background:var(--gold); color:var(--primary-green); padding:10px 20px; margin:5px;
+      font-weight:700; text-decoration:none; border-radius:8px; display:inline-block; box-shadow:var(--shadow); transition:.3s;
+    }
+    .btn:hover { background:var(--white); }
+
+    section { padding:60px 20px; }
+    section h2 { text-align:center; margin-bottom:40px; color:var(--primary-green); }
+
+    /* Carousel (News) */
+    .carousel { position:relative; overflow:hidden; }
+    .carousel-track { display:flex; gap:20px; transition:transform 0.5s ease-in-out; will-change:transform; }
+    .carousel-item {
+      flex:0 0 320px; background:var(--white); border-radius:10px; overflow:hidden; box-shadow:var(--shadow);
+    }
+    .carousel-item img { width:100%; height:180px; object-fit:cover; display:block; }
+    .carousel-item .content { padding:15px; }
+    .carousel-item .content h3 { margin-bottom:8px; color:var(--primary-green); }
+    .carousel-btn {
+      position:absolute; top:50%; transform:translateY(-50%); background:var(--primary-green);
+      color:var(--white); border:none; padding:10px; cursor:pointer; border-radius:50%; line-height:0;
+    }
+    .carousel-btn:hover { background:var(--gold); color:var(--primary-green); }
+    .carousel-btn.left { left:10px; }
+    .carousel-btn.right { right:10px; }
+
+    /* Resources */
+    .resources-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; }
+    .resource-card {
+      background:var(--white); padding:22px; border-radius:12px; text-align:center; font-weight:700;
+      color:var(--primary-green); border:2px solid var(--gold); box-shadow:var(--shadow); transition:.3s;
+    }
+    .resource-card:hover { transform:translateY(-3px); }
+
+    /* Gallery */
+    .gallery-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; }
+    .gallery-container img { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:10px; cursor:pointer; transition:.3s; display:block; }
+    .gallery-container img:hover { transform:scale(1.03); }
+
+    /* Lightbox (pure CSS via :target) */
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); justify-content:center; align-items:center; z-index:2000; }
+    .lightbox img { max-width:90%; max-height:80%; border-radius:10px; }
+    .lightbox:target { display:flex; }
+    .lightbox .close {
+      position:absolute; top:20px; right:30px; font-size:36px; color:#fff; text-decoration:none; line-height:1;
+    }
+
+    /* Testimonials */
+    .testimonial-slider { position:relative; overflow:hidden; }
+    .testimonial-track { display:flex; gap:20px; transition:transform 0.5s ease; }
+    .testimonial {
+      flex:0 0 320px; background:var(--white); padding:20px; border-radius:10px; box-shadow:var(--shadow);
+    }
+    .testimonial h4 { color:var(--primary-green); margin-top:10px; }
+    .test-btn {
+      position:absolute; top:50%; transform:translateY(-50%); background:var(--primary-green);
+      color:var(--white); border:none; padding:10px; border-radius:50%; cursor:pointer; line-height:0;
+    }
+    .test-btn.left { left:10px; }
+    .test-btn.right { right:10px; }
+    .test-btn:hover { background:var(--gold); color:var(--primary-green); }
+
+    /* Volunteer Form */
+    .form-container { max-width:520px; margin:0 auto; background:var(--white); padding:30px; border-radius:12px; box-shadow:var(--shadow); }
+    .form-group { margin-bottom:15px; }
+    .form-container label { display:block; font-weight:700; margin-bottom:6px; color:#1e1e1e; }
+    .form-container input, .form-container textarea {
+      width:100%; padding:12px; border:1px solid #ccc; border-radius:8px; font-size:16px;
+    }
+    .form-container button {
+      width:100%; padding:12px; background:var(--primary-green); color:var(--white); font-weight:700;
+      border:none; border-radius:8px; cursor:pointer; transition:.3s;
+    }
+    .form-container button:hover { background:var(--gold); color:var(--primary-green); }
+    /*Extras Section*/
+    .extra{display: grid;
+     grid-template-columns: repeat(auto-fit,
+      minmax(250px, 1fr));
+      gap:20px; 
+      text-align:center;
+    }
+    .extra-card{
+      background:var(--white);padding: 20px; border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    .extra-card h3 { color: var(--primary-green); margin-bottom: 10px; }
+
+
+    footer { background:var(--primary-green); color:var(--white); padding:30px 20px; text-align:center; }
+
+    /* Animations */
+    .fade-in { opacity:0; transform:translateY(30px); transition:all 0.8s ease-in-out; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width:768px) {
+      .hero h1{font-size:32px;}
+      .hero p{font-size:16px;}
+      .carousel-item, .testimonial { flex-basis: 85vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav role="navigation" aria-label="Primary">
+    <a class="logo" href="#home" aria-label="Kukhanyeni Community Hub home">
+      <img src="logo.png" alt="Kukhanyeni Hub logo"/>
+    </a>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#involve">Get Involved</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="home" aria-label="Hero">
+    <div class="hero-content">
+      <h1>Working Together for Kukhanyeni</h1>
+      <p>Empowering Youth • Supporting Farmers • Strengthening Community</p>
+      <a href="#involve" class="btn" aria-label="Go to Get Involved section">Join Us</a>
+      <a href="#news" class="btn" aria-label="See latest updates">Latest Updates</a>
+    </div>
+  </section>
+
+  <section id="news" aria-label="Community News and Updates">
+    <h2>Community News &amp; Updates</h2>
+    <div class="carousel fade-in">
+      <button class="carousel-btn left" type="button" aria-label="Previous news" onclick="moveCarousel(-1)">&larr;</button>
+      <div class="carousel-track" id="newsTrack">
+        <article class="carousel-item" aria-label="Youth Training update card">
+          <img src=youth.png alt="Youth training workshop in a computer lab"/>
+          <div class="content"><h3>Youth Training</h3><p>50+ youths trained in computer skills.</p></div>
+        </article>
+        <article class="carousel-item" aria-label="Community Garden update card">
+          <img src=garden.png  alt="Community members working in a vegetable garden"/>
+          <div class="content"><h3>Community Garden</h3><p>Helping local farmers improve sustainability.</p></div>
+        </article>
+        <article class="carousel-item" aria-label="Clean-Up Day update card">
+          <img src=https://via.placeholder.com/800x450 alt="Volunteers picking litter during a cleanup day"/>
+          <div class="content"><h3>Clean-Up Day</h3><p>Volunteers joined hands to beautify Kukhanyeni.</p></div>
+        </article>
+      </div>
+      <button class="carousel-btn right" type="button" aria-label="Next news" onclick="moveCarousel(1)">&rarr;</button>
+    </div>
+  </section>
+
+  <section id="resources" class="fade-in" aria-label="Resources">
+    <h2>Resources for the Community</h2>
+    <div class="resources-container">
+      <div class="resource-card" role="button" tabindex="0" aria-label="Job Opportunities">Job Opportunities</div>
+      <div class="resource-card" role="button" tabindex="0" aria-label="Farming Tips">Farming Tips</div>
+      <div class="resource-card" role="button" tabindex="0" aria-label="Study Materials">Study Materials</div>
+      <div class="resource-card" role="button" tabindex="0" aria-label="Youth Skills Training">Youth Skills Training</div>
+    </div>
+  </section>
+
+  <section id="gallery" class="fade-in" aria-label="Gallery">
+    <h2>Gallery</h2>
+    <div class="gallery-container">
+      <a href="#img1" aria-label="Open image 1"><img src=https://via.placeholder.com/800x600 alt="Community meeting in hall"></a>
+      <a href="#img2" aria-label="Open image 2"><img src=https://via.placeholder.com/800x600 alt="Seedlings for community garden"></a>
+      <a href="#img3" aria-label="Open image 3"><img src=https://via.placeholder.com/800x600 alt="Youth coding bootcamp"></a>
+      <a href="#img4" aria-label="Open image 4"><img src=https://via.placeholder.com/800x600 alt="Road repair crew at work"></a>
+    </div>
+  </section>
+
+  <div id="img1" class="lightbox" aria-modal="true" role="dialog">
+    <img src=https://via.placeholder.com/1200x800 alt="Community meeting in hall enlarged"/>
+    <a class="close" href="#gallery" aria-label="Close lightbox">&times;</a>
+  </div>
+  <div id="img2" class="lightbox" aria-modal="true" role="dialog">
+    <img src=https://via.placeholder.com/1200x800 alt="Seedlings for community garden enlarged"/>
+    <a class="close" href="#gallery" aria-label="Close lightbox">&times;</a>
+  </div>
+  <div id="img3" class="lightbox" aria-modal="true" role="dialog">
+    <img src=https://via.placeholder.com/1200x800 alt="Youth coding bootcamp enlarged"/>
+    <a class="close" href="#gallery" aria-label="Close lightbox">&times;</a>
+  </div>
+  <div id="img4" class="lightbox" aria-modal="true" role="dialog">
+    <img src=https://via.placeholder.com/1200x800 alt="Road repair crew enlarged"/>
+    <a class="close" href="#gallery" aria-label="Close lightbox">&times;</a>
+  </div>
+
+  <section id="involve" class="fade-in" aria-label="Get involved">
+    <h2>Get Involved</h2>
+    <div class="form-container">
+      <h3 style="margin-bottom:10px;">Volunteer Registration</h3>
+
+      <form id="volunteerForm" novalidate>
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input id="fullName" name="fullName" type="text" placeholder="Full Name" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Email" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input id="phone" name="phone" type="tel" placeholder="Phone Number" required/>
+        </div>
+
+        <div class="form-group">
+          <label for="help">How would you like to help?</label>
+          <textarea id="help" name="help" rows="4" placeholder="Tell us where you can contribute" required></textarea>
+        </div>
+
+        <button type="submit" aria-label="Submit volunteer form">Submit</button>
+      </form>
+
+      <p style="text-align:center; margin-top:12px;">
+        Or join our
+        <a href="#" style="color:var(--gold);" aria-label="Join WhatsApp group">WhatsApp Group</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="testimonials" aria-label="Community Testimonials">
+    <h2>Community Testimonials</h2>
+    <div class="testimonial-slider fade-in">
+      <button class="test-btn left" type="button" aria-label="Previous testimonial" onclick="moveTest(-1)">&larr;</button>
+      <div class="testimonial-track" id="testTrack">
+        <div class="testimonial" aria-label="Testimonial 1">
+          <p>"Thanks to the training, I now have a job!"</p><h4>- Sipho</h4>
+        </div>
+        <div class="testimonial" aria-label="Testimonial 2">
+          <p>”The garden initiative changed our lives.”</p><h4>- Gogo N.</h4>
+        </div>
+        <div class="testimonial" aria-label="Testimonial 3">
+          <p>"We feel supported and heard."</p><h4>- Thandi</h4>
+        </div>
+      </div>
+      <button class="test-btn right" type="button" aria-label="Next testimonial" onclick="moveTest(1)">&rarr;</button>
+    </div>
+  </section>
+
+  <section id="extra" class="fade-in" aria-label="Community Highlights">
+    <h2>Community Highlights</h2>
+    <div class="extras">
+      <div class="extra-card">
+        <h3>Quote of the Week</h3>
+        <p>”Together we build a brighter future.”</p>
+      </div>
+      <div class="extra-card">
+        <h3>Community Spotlight</h3>
+        <p>Meet Thabo, thriving thanks to training.</p>
+      </div>
+      <div class="extra-card">
+        <h3>Photo Journal</h3>
+        <p>Helping Gogo rebuild her garden.</p>
+      </div>
+    </div>
+  </section>
+  <script>
+    // Corrected JavaScript for both carousels and the fade-in effect.
+    let newsIndex=0;
+    const newsTrack=document.getElementById("newsTrack");
+    const newsItems=document.querySelectorAll("#newsTrack .carousel-item");
+
+
+    function moveCarousel(direction){
+      newsIndex += direction;
+      if(newsIndex < 0) newsIndex=newsItems.length-1;
+      if(newsIndex >= newsItems.length) newsIndex=0;
+      newsTrack.style.transform=`translateX(-${newsIndex * 320}px)`;
+    }
+
+    let testIndex=0;
+    const testTrack=document.getElementById("testTrack");
+    const testItems=document.querySelectorAll("#testTrack .testimonial");
+
+    function moveTest(direction){
+      testIndex += direction;
+      if(testIndex<0) testIndex=testItems.length-1;
+      if(testIndex>=testItems.length) testIndex=0;
+      testTrack.style.transform=`translateX(-${testIndex * 320}px)`;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      rootMargin: "0px",
+      threshold: 0.1
+    });
+
+    document.querySelectorAll('.fade-in').forEach((section) => {
+      observer.observe(section);
+    });
+</script>
+</body>
+  <footer role="contentinfo">
+    <p>&copy; 2025 Dan Dlamini &middot; Contact: info@example.com</p>
+  </footer>
+</html>
+
